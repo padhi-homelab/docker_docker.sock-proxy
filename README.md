@@ -4,21 +4,25 @@
 
 A multiarch [HAProxy] Docker image, based on Alpine Linux, to proxy a local [docker.sock] file.
 
-### Supported Architectures
-
-- `x86` (`linux/386`)
-- `amd64` (`linux/amd64`)
-- `arm` (`linux/arm/v6`)
-- `armhf` (`linux/arm/v7`)
-- `aarch64` (`linux/arm64`)
-- `ppc64le` (`linux/ppc64le`)
+<table>
+  <thead>
+    <tr>
+      <th>:heavy_check_mark: i386</th>
+      <th>:heavy_check_mark: amd64</th>
+      <th>:heavy_check_mark: arm</th>
+      <th>:heavy_check_mark: armhf</th>
+      <th>:heavy_check_mark: aarch64</th>
+      <th>:heavy_check_mark: ppc64le</th>
+    <tr>
+  </thead>
+</table>
 
 ### Credits
 
 #### https://github.com/Tecnativa/docker-socket-proxy
   - My [HAProxy config](haproxy.cfg) and [Dockerfile](Dockerfile)
     are mostly derived from this excellend project
-  - I updated [HAProxy] version to 2.2 (also verified [Docker API] 1.40 support)
+  - I upgraded [HAProxy] version to 2.2 (also verified [Docker API] 1.40 support)
   - I added stats monitoring frontend to HAProxy (exposed on port `9000`)
   - The multiarch build workflow is a bit cleaner
 
@@ -27,4 +31,4 @@ A multiarch [HAProxy] Docker image, based on Alpine Linux, to proxy a local [doc
 [Alpine Linux]: https://alpinelinux.org/
 [Docker API]:   https://docs.docker.com/engine/api/
 [docker.sock]:  https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-socket-option
-[HAProxy]:      https://github.com/docker/compose/
+[HAProxy]:      http://www.haproxy.org/
