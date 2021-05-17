@@ -1,4 +1,4 @@
-FROM haproxy:2.3-alpine
+FROM haproxy:2.4.0-alpine
 
 # HAProxy settings
 ENV LOG_LEVEL=info \
