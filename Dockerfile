@@ -1,7 +1,9 @@
-FROM haproxy:2.3-alpine
+FROM haproxy:2.4-alpine AS base
+
+FROM padhihomelab/alpine-base:3.14.0_0.19.0_0.2
 
 # HAProxy settings
-ENV LOG_LEVEL=info \
+ENV LOG_LEVEL=debug \
     METH_POST=0
 
 # Default allowed Docker API URIs
@@ -30,7 +32,23 @@ ENV AUTH=0 \
     TASKS=0 \
     VOLUMES=0
 
-COPY haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
+RUN apk add --no-cache --update \
+    haproxy=2.4.1-r0 \
+    socat
+
+COPY --from=base \
+     /usr/local/etc/haproxy/errors \
+     /etc/haproxy/errors
+
+COPY 10-setup-socket.sh         /etc/docker-entrypoint.d/
+COPY haproxy.cfg                /etc/haproxy/haproxy.cfg
+
+RUN chmod +x /etc/docker-entrypoint.d/10-setup-socket.sh
 
 EXPOSE 1279
 EXPOSE 9000
+
+CMD haproxy -W -db -f /etc/haproxy/haproxy.cfg
+
+HEALTHCHECK --start-period=5s --interval=10s --timeout=3s --retries=3 \
+        CMD ["wget", "-qSO", "/dev/null",  "http://localhost:9000/"]
