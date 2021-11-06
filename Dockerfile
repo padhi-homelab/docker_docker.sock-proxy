@@ -1,6 +1,6 @@
-FROM haproxy:2.4-alpine AS base
+FROM haproxy:2.4.4-alpine AS base
 
-FROM padhihomelab/alpine-base:3.14.0_0.19.0_0.2
+FROM padhihomelab/alpine-base:3.14.2_0.19.0_0.2
 
 # HAProxy settings
 ENV LOG_LEVEL=debug \
@@ -33,17 +33,19 @@ ENV AUTH=0 \
     VOLUMES=0
 
 RUN apk add --no-cache --update \
-    haproxy=2.4.1-r0 \
+    haproxy=2.4.4-r0 \
     socat
 
 COPY --from=base \
      /usr/local/etc/haproxy/errors \
      /etc/haproxy/errors
 
-COPY 10-setup-socket.sh         /etc/docker-entrypoint.d/
 COPY haproxy.cfg                /etc/haproxy/haproxy.cfg
 
-RUN chmod +x /etc/docker-entrypoint.d/10-setup-socket.sh
+COPY entrypoint-scripts \
+     /etc/docker-entrypoint.d/99-extra-scripts
+
+RUN chmod +x /etc/docker-entrypoint.d/99-extra-scripts/*.sh
 
 EXPOSE 1279
 EXPOSE 9000
