@@ -1,4 +1,4 @@
-FROM haproxy:2.4.4-alpine AS base
+FROM haproxy:2.5.1-alpine AS base
 
 FROM padhihomelab/alpine-base:3.14.2_0.19.0_0.2
 
