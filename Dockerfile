@@ -1,6 +1,6 @@
-FROM haproxy:2.4.4-alpine AS base
+FROM haproxy:2.4.12-alpine AS base
 
-FROM padhihomelab/alpine-base:3.14.2_0.19.0_0.2
+FROM padhihomelab/alpine-base:3.15.0_0.19.0_0.2
 
 # HAProxy settings
 ENV LOG_LEVEL=debug \
@@ -33,7 +33,7 @@ ENV AUTH=0 \
     VOLUMES=0
 
 RUN apk add --no-cache --update \
-    haproxy=2.4.4-r0 \
+    haproxy=2.4.12-r0 \
     socat
 
 COPY --from=base \
