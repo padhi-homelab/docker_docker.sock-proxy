@@ -1,6 +1,6 @@
-FROM haproxy:2.6.0-alpine AS base
+FROM haproxy:2.6.2-alpine AS base
 
-FROM padhihomelab/alpine-base:3.16.1_0.19.0_0.2
+FROM padhihomelab/alpine-base:edge
 
 # HAProxy settings
 ENV LOG_LEVEL=debug \
@@ -33,8 +33,8 @@ ENV AUTH=0 \
     VOLUMES=0
 
 RUN apk add --no-cache --update \
-    haproxy=2.4.17-r0 \
-    socat
+            haproxy=2.6.2-r1 \
+            socat
 
 COPY --from=base \
      /usr/local/etc/haproxy/errors \
@@ -53,4 +53,4 @@ EXPOSE 9000
 CMD haproxy -W -db -f /etc/haproxy/haproxy.cfg
 
 HEALTHCHECK --start-period=5s --interval=10s --timeout=3s --retries=3 \
-        CMD ["wget", "-qSO", "/dev/null",  "http://localhost:9000/"]
+        CMD ["wget", "-qSO", "/dev/null",  "http://127.0.0.1:9000/"]
