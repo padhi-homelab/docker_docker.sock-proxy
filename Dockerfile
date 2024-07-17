@@ -1,6 +1,6 @@
-FROM haproxy:2.6.14-alpine AS base
+FROM haproxy:2.8.10-alpine AS base
 
-FROM padhihomelab/alpine-base:3.18.2_0.19.0_0.2 
+FROM padhihomelab/alpine-base:3.20.1_0.19.0_0.2
 
 # HAProxy settings
 ENV LOG_LEVEL=debug \
@@ -11,7 +11,10 @@ ENV PING=1 \
     VERSION=1
 
 # Default denied Docker API URIs
-ENV AUTH=0 \
+ENV ALLOW_RESTARTS=0 \
+    ALLOW_START=0 \
+    ALLOW_STOP=0 \
+    AUTH=0 \
     BUILD=0 \
     COMMIT=0 \
     CONFIGS=0 \
@@ -19,6 +22,7 @@ ENV AUTH=0 \
     DISTRIBUTION=0 \
     EVENTS=0 \
     EXEC=0 \
+    GRPC=0 \
     IMAGES=0 \
     INFO=0 \
     NETWORKS=0 \
@@ -33,14 +37,15 @@ ENV AUTH=0 \
     VOLUMES=0
 
 RUN apk add --no-cache --update \
-            haproxy=2.6.14-r0 \
+            haproxy=2.8.10-r0 \
             socat
 
 COPY --from=base \
      /usr/local/etc/haproxy/errors \
      /etc/haproxy/errors
 
-COPY haproxy.cfg                /etc/haproxy/haproxy.cfg
+COPY haproxy.cfg \
+     /etc/haproxy/haproxy.cfg
 
 COPY entrypoint-scripts \
      /etc/docker-entrypoint.d/99-extra-scripts
