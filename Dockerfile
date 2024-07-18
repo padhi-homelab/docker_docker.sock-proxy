@@ -55,7 +55,9 @@ RUN chmod +x /etc/docker-entrypoint.d/99-extra-scripts/*.sh
 EXPOSE 1279
 EXPOSE 9000
 
+VOLUME [ "/haproxy" ]
+
 CMD haproxy -W -db -f /etc/haproxy/haproxy.cfg
 
 HEALTHCHECK --start-period=5s --interval=10s --timeout=3s --retries=3 \
-        CMD ["wget", "-qSO", "/dev/null",  "http://127.0.0.1:9000/"]
+        CMD ["wget", "-qSO", "/dev/null",  "http://127.0.0.1:9000/docker.sock"]
