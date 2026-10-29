@@ -1,6 +1,6 @@
 FROM haproxy:3.0.7-alpine AS base
 
-FROM padhihomelab/alpine-base:3.21.2_0.19.0_0.2
+FROM padhihomelab/alpine-base:3.24.2_0.19.0_0.3
 
 # HAProxy settings
 ENV LOG_LEVEL=debug \
